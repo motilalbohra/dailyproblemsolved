@@ -1,0 +1,20 @@
+class Solution {
+    public int trap(int[] height) {
+        int res = 0,n = height.length - 1;
+        int r = n, l = 0;
+        int lval = height[l],rval = height[r];
+        while(l < r){
+            if(lval <= rval){
+                res += lval - height[l];
+                l++;
+                lval = Math.max(lval, height[l]);
+            }
+            else{
+                res += rval - height[r];
+                r--;
+                rval = Math.max(rval, height[r]);
+            }
+        }
+        return res;
+    }
+}
