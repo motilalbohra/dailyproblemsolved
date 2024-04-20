@@ -1,0 +1,36 @@
+class Solution {
+    public int[][] findFarmland(int[][] land) {
+        int n = land.length, m = land[0].length;
+        boolean[][] vis = new boolean[n][m];
+        List<int[]> res = new ArrayList<>();
+        Queue<int[]> q = new LinkedList<>();
+        int[][] dir = { {1, 0}, {0, 1}};
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(!vis[i][j] && land[i][j] == 1){
+                    int[] farmland = {i, j, i, j};
+                    vis[i][j] = true;
+                    q.add(new int[]{i, j});
+                    while(!q.isEmpty()){
+                        int[] curr = q.poll();
+                        int curRow = curr[0];
+                        int curCol = curr[1];
+                        for(int[] d: dir){
+                            int newRow = curRow + d[0];
+                            int newCol = curCol + d[1];
+                            if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m 
+                            && !vis[newRow][newCol] && land[newRow][newCol] == 1){
+                                q.add(new int[]{newRow, newCol});
+                                vis[newRow][newCol] = true;
+                                farmland[2] = Math.max(farmland[2], newRow);
+                                farmland[3] = Math.max(farmland[3], newCol);
+                            }
+                        }
+                    }
+                    res.add(farmland);
+                }
+            }
+        }
+        return res.toArray(new int[res.size()][]);
+    }
+}
